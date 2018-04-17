@@ -1,0 +1,366 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="21990 (generated)" id="1523980864466-1">
+        <createTable tableName="categories">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="categories_pkey"/>
+            </column>
+            <column name="category" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-2">
+        <createTable tableName="claims">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="claims_pkey"/>
+            </column>
+            <column name="deal_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-3">
+        <sql>CREATE TYPE client_type AS ENUM ('INDIVIDUAL', 'LEGAL_ENTITY')</sql>
+        <createTable tableName="clients">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="clients_pkey"/>
+            </column>
+            <column name="type" type="CLIENT_TYPE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-4">
+        <createTable tableName="clients_categories">
+            <column name="client_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="clients_categories_pkey"/>
+            </column>
+            <column defaultValue="GENERAL" name="category" type="CATEGORY">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-5">
+        <createTable tableName="credits">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="credits_pkey"/>
+            </column>
+            <column name="client_type" type="CLIENT_TYPE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="guarantee_type" type="GUARANTEE_TYPE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="term" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_for_prepayment" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_for_delay" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="guarantors_count" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="GENERAL" name="category" type="CATEGORY">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_sum" type="numeric(15, 6)"/>
+            <column name="min_sum" type="numeric(15, 6)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-6">
+        <createTable tableName="credits_categories">
+            <column name="credit_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="credits_categories_pkey"/>
+            </column>
+            <column defaultValue="GENERAL" name="category" type="CATEGORY">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-7">
+        <createTable tableName="credits_detail">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="credits_currencies_rates_pkey"/>
+            </column>
+            <column name="credits_currency_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate_type" type="RATE_TYPE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate_value" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-8">
+        <createTable tableName="credits_details">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="credits_currencies_pkey"/>
+            </column>
+            <column name="credit_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate_type" type="RATE_TYPE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate_value" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-9">
+        <createTable tableName="currencies">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="currencies_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="char_code" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-10">
+        <createTable tableName="deals">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="deals_pkey"/>
+            </column>
+            <column name="client_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credit_details_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric(15, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_opened" type="date"/>
+            <column name="date_closed" type="date"/>
+            <column name="pledge_id" type="UUID"/>
+            <column name="reason_for_delay" type="TEXT"/>
+            <column defaultValue="PROCESSING" name="status" type="DEAL_STATUS">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="date_created" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="deal_num" type="BIGSERIAL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-11">
+        <createTable tableName="guarantors_deals">
+            <column name="guarantee_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="guaranties_deals_pkey"/>
+            </column>
+            <column name="deal_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="guaranties_deals_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-12">
+        <createTable tableName="individuals">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="individuals_pkey"/>
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passport_series" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passport_number" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-13">
+        <createTable tableName="interest_rates">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="interest_rates_pkey"/>
+            </column>
+            <column name="type" type="RATE_TYPE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-14">
+        <createTable tableName="legal_entities">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="legal_entities_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ownership_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-15">
+        <createTable tableName="payments">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="payments_pkey"/>
+            </column>
+            <column name="date" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="main_debt" type="numeric(15, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deal_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_for_delay" type="numeric(15, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fine_for_prepayment" type="numeric(15, 6)"/>
+            <column name="interest_rate" type="numeric(15, 6)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-16">
+        <createTable tableName="persons">
+            <column defaultValueComputed="public.uuid_generate_v4()" name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="individuals_copy_pkey"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passport_series" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passport_number" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-17">
+        <createTable tableName="properties">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="properties_pkey"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cost" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-18">
+        <addUniqueConstraint columnNames="client_id, category" constraintName="unique_category" tableName="clients_categories"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-19">
+        <createIndex indexName="unique_active_code" tableName="currencies" unique="true">
+            <column computed="true" name="(deleted = false)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-20">
+        <createIndex indexName="unique_credit_currency" tableName="credits_details" unique="true">
+            <column computed="true" name="(deleted = false)"/>
+            <column computed="true" name="(deleted = false)"/>
+            <column computed="true" name="(deleted = false)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-21">
+        <createIndex indexName="unique_credit_details" tableName="credits_detail" unique="true">
+            <column computed="true" name="(deleted = false)"/>
+            <column computed="true" name="(deleted = false)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-22">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="clients_categories" constraintName="clients_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-23">
+        <addForeignKeyConstraint baseColumnNames="credits_currency_id" baseTableName="credits_detail" constraintName="credits_currencies_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="credits_details" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-24">
+        <addForeignKeyConstraint baseColumnNames="credit_details_id" baseTableName="deals" constraintName="credits_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="credits_details" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-25">
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="credits_details" constraintName="currencies_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="currencies" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-26">
+        <addForeignKeyConstraint baseColumnNames="deal_id" baseTableName="payments" constraintName="deals_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="deals" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-27">
+        <addForeignKeyConstraint baseColumnNames="deal_id" baseTableName="claims" constraintName="deals_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="deals" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-28">
+        <addForeignKeyConstraint baseColumnNames="guarantee_id" baseTableName="guarantors_deals" constraintName="guarantees_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="persons" validate="true"/>
+    </changeSet>
+    <changeSet author="21990 (generated)" id="1523980864466-29">
+        <addForeignKeyConstraint baseColumnNames="pledge_id" baseTableName="deals" constraintName="property_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="properties" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
